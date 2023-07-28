@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { transporter } from "../config/email.js";
+import { logger } from "../utils/logger.js";
 
 const router = Router();
 
@@ -26,10 +27,10 @@ router.post("/",async(req,res)=>{
     try{
         //usar el transports con la estructura del correo
         const info = await transporter.sendMail(mailOptions);
-        console.log("info: ", info);
+        logger.info("info: ", info);
         res.json({status:"success", message:`Correo enviado a ${mailOptions.to}`});
     }catch(error){
-        console.log(error.message);
+        logger.error(error.message);
         res.json({status:"error", message:"hubo un error al enviar el correo"});
     }
 });
